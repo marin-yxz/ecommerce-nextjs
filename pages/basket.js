@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { productDatabase } from '../util/productsDatabase';
 

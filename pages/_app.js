@@ -1,15 +1,9 @@
 import '../styles/globals.css';
-import { AnimatePresence, motion } from 'framer-motion';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { Footer } from './Components/PageLayout/Footer';
 import { Header } from './Components/PageLayout/Header';
 
-const variants = {
-  hidden: { opacity: 0, x: -200, y: 0 },
-  enter: { opacity: 1, x: 0, y: 0 },
-  exit: { opacity: 0, x: 0, y: -100 },
-};
 function MyApp({ Component, pageProps }) {
   const cookie = Cookies.get('products')
     ? JSON.parse(Cookies.get('products'))
