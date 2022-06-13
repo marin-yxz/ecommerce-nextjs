@@ -5,6 +5,9 @@
   "engines": {
     "node": "18.x"
   },
+  "cacheDirectories": [
+    ".next/cache"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -70,8 +73,5 @@
     "eslint-plugin-react": "7.29.4",
     "eslint-plugin-react-hooks": "4.5.0",
     "@typescript-eslint/utils": "5.22.0"
-  },
-  "cacheDirectories": [
-    ".next/cache"
-  ]
+  }
 }
