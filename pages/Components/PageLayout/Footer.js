@@ -38,7 +38,7 @@ const GalaxyContainer = styled.div`
   font-size: 70px;
   font-weight: 700;
 `;
-export function Footer() {
+export default function Footer() {
   return (
     <MainDiv>
       <ContainingHeader>
