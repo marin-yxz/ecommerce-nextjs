@@ -35,7 +35,7 @@ const MenuContainer = styled.div`
   margin-bottom: 10px;
 `;
 
-export default function Header(props) {
+export default  function Header(props) {
   // console.log('my cookies ' + props.cookies);
   return (
     <MainDiv>

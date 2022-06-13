@@ -1,8 +1,8 @@
 import '../styles/globals.css';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
-import { Footer } from './Components/PageLayout/Footer';
-import { Header } from './Components/PageLayout/Header';
+import Footer from './Components/PageLayout/Footer';
+import Header from './Components/PageLayout/Header';
 
 function MyApp({ Component, pageProps }) {
   const cookie = Cookies.get('products')
