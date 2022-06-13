@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import * as Scroll from 'react-scroll';
 import styled, { css, keyframes } from 'styled-components';
 import styles from '../styles/Home.module.css';
-import { productDatabase } from '../util/productsDatabase';
+import { data1 } from '../util/productsDatabase';
 
 const scrollReact = Scroll.Link;
 
@@ -355,6 +355,7 @@ const PlanetOutline = styled.div`
   right: 0;
   bottom: 0;
   margin: auto;
+  cursor: pointer;
   /* margin-top: 30%; */
   /* transform: skewy(10deg); */
   transition: 0.5s;
@@ -368,24 +369,36 @@ const Planeterium = styled.div`
   align-items: center;
   margin-top: 20%;
   z-index: 0;
-  /* transform: skewy(20deg); */
+  transform: skewy(-20deg);
 `;
 
 const rotateSmallPlanets = (y, x, z) => keyframes`
 
 0% {
-      transform: rotate(${x}deg) translateX(${y}) rotate(${x}deg)  ;
+      transform: rotate(${x}deg) translateX(${y})  ;
+
     }
     100% {
-      transform: rotate(${z}deg) translateX(${y}) rotate(${z}deg);
+      transform: rotate(${z}deg) translateX(${y}) ;
+    }
+`;
+const rotatenamePlanets = (y, x, z) => keyframes`
+
+0% {
+      transform: rotate(${x}deg) translateX(${y})  ;
+
+    }
+    100% {
+      transform: rotate(${z}deg) translateX(${y}) ;
+
     }
 `;
 const SmallPlanets1 = styled.div`
   position: absolute;
   background-color: black;
   cursor: pointer;
-  width: 50px;
-  height: 50px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   top: 0;
   left: 0;
@@ -393,22 +406,29 @@ const SmallPlanets1 = styled.div`
   bottom: 0;
   z-index: 16;
   margin: auto;
-  color: ${(props) => (!props.visibility ? 'white' : 'green')};
+  transition: 1s ease-out;
+  /* height: ${(props) => (props.visibility ? '10px' : '100px')}; */
   animation: ${(props) =>
       rotateSmallPlanets(props.rotates, props.start, props.plus)}
     ${(props) => props.time} linear infinite;
 `;
-const SmallPlanets2 = ({ rotates, time, start, plus, visibility }) => {
-  return (
-    <SmallPlanets1
-      rotates={rotates}
-      time={time}
-      start={start}
-      plus={plus}
-      visibility={visibility}
-    />
-  );
-};
+const PlanetName = styled.div`
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  font-size: 30px;
+  /* border-radius: 50%; */
+  z-index: 15;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  transition: 1s ease-out;
+  animation: ${(props) =>
+      rotatenamePlanets(props.rotates, props.start, props.plus)}
+    ${(props) => props.time} linear infinite;
+`;
 export default function Home(props) {
   const a = [
     { number: 1 },
@@ -423,19 +443,21 @@ export default function Home(props) {
   const [visibility4, setVisibility4] = useState(false);
   const [visibility5, setVisibility5] = useState(false);
   console.log(visibility1, visibility2, visibility3, visibility4, visibility5);
-
   return (
     <div className={styles.container}>
       <Head>
         <title>Home</title>
-        <meta name="description" content="Home" />
+        <meta name="description" content="Home" lang="en" />
         <link
           rel="icon"
           href="https://cdn-icons-png.flaticon.com/512/116/116859.png"
         />
       </Head>
 
-      <MainContainer style={{ backgroundImage: "url('./space2.jpg')" }}>
+      <MainContainer
+        id="home"
+        style={{ backgroundImage: "url('./space2.jpg')" }}
+      >
         <TextContainer>
           <h1 style={{ margin: `30px 0 0 0`, fontSize: `15px` }}>
             ----------ENYOJ YOUR STAY----------
@@ -457,39 +479,49 @@ export default function Home(props) {
         })}
       </MainContainer>
       <WelcomeTextDiv>
-        <WelcomeText>YOU FEEL LIKE YOU NEED SOME SPACE?</WelcomeText>
-        <WelcomeSubText>shop all the time and space you want</WelcomeSubText>
+        <WelcomeText tabIndex="0">
+          YOU FEEL LIKE YOU NEED SOME SPACE?
+        </WelcomeText>
+        <WelcomeSubText tabIndex="0">
+          shop all the time and space you want
+        </WelcomeSubText>
         <ScrollReact
           to="products"
           smooth={true}
           duration={500}
           isDynamic={true}
+          tabIndex="0"
         >
           {' '}
-          EXPLORE ALL PLANETS
+          INTERACTIVE LAYOUT
         </ScrollReact>
       </WelcomeTextDiv>
 
-      <ProductsDiv id="products">
+      <ProductsDiv>
         {' '}
-        <Planets>Planets</Planets>
+        <Planets id="products1" tabIndex="0">
+          Planets
+        </Planets>
         <PlanetsContainer>
           <PlanetsProductsGrid>
             {props.products.map(({ id, name, description, price }) => {
               return (
                 // <Link href=`/${planet.name}`>
                 <ContentDiv key={id}>
-                  <Link href={'/products/' + name}>
-                    <ContentTitle>{name}</ContentTitle>
+                  <Link href={'/products/' + name} tabIndex="0">
+                    <ContentTitle role="title" tabIndex="0">
+                      {name}
+                    </ContentTitle>
                   </Link>
                   <ImageWrapper>
-                    <Link href={'/products/' + name}>
+                    <Link href={'/products/' + name} tabIndex="0">
                       <div>
                         <Image
                           src={`/${name}.png`}
                           alt="moon"
                           height="100"
                           width="100"
+                          tabIndex="0"
                         />
                       </div>
                     </Link>
@@ -497,15 +529,17 @@ export default function Home(props) {
                   <BottomDiv>
                     <DescriptionDiv>
                       {' '}
-                      <DescriptionTitle>{name}</DescriptionTitle>
-                      <DescriptionSubText>{description}</DescriptionSubText>
+                      <DescriptionTitle tabIndex="0">{name}</DescriptionTitle>
+                      <DescriptionSubText tabIndex="0">
+                        {description}
+                      </DescriptionSubText>
                     </DescriptionDiv>{' '}
-                    <Price>${price}</Price>
+                    <Price tabIndex="0">${price}</Price>
                   </BottomDiv>
                   <QnP>
-                    <Quantity>planets</Quantity>
+                    <Quantity tabIndex="0">planets</Quantity>
 
-                    <Quantity>stars</Quantity>
+                    <Quantity tabIndex="0">stars</Quantity>
                   </QnP>
                 </ContentDiv>
                 // </Link>
@@ -516,8 +550,8 @@ export default function Home(props) {
       </ProductsDiv>
       <InfoPage style={{ backgroundImage: "url('./space2.jpg')" }}>
         <InfoDiv>
-          <InfoTitle>Galaxy</InfoTitle>
-          <InfoSubTitle>
+          <InfoTitle tabIndex="0">Galaxy</InfoTitle>
+          <InfoSubTitle tabIndex="0">
             Far out in the uncharted backwaters of the unfashionable end of the
             western spiral arm of the Galaxy lies a small unregarded yellow sun.
             Orbiting this at a distance of roughly ninety-two million miles is
@@ -555,87 +589,187 @@ export default function Home(props) {
       // onMouseEnter={() => setVisibility(false)}
       // onMouseLeave={() => setVisibility(true)}
       >
-        <Planeterium>
-          <Sun style={{ zIndex: 15 }} />
-          <PlanetOutline
-            style={{ zIndex: '14' }}
-            onMouseEnter={() => setVisibility1(true)}
-            onMouseLeave={() => setVisibility1(false)}
-          />
-          <PlanetOutline
-            style={{ width: '200px', height: '200px', zIndex: '13' }}
-            onMouseEnter={() => setVisibility2(true)}
-            onMouseLeave={() => setVisibility2(false)}
-          />
-          <PlanetOutline
-            style={{ width: '300px', height: '300px', zIndex: '12' }}
-            onMouseEnter={() => setVisibility3(true)}
-            onMouseLeave={() => setVisibility3(false)}
-          />
-          <PlanetOutline
-            style={{ width: '400px', height: '400px', zIndex: '11' }}
-            onMouseEnter={() => setVisibility4(true)}
-            onMouseLeave={() => setVisibility4(false)}
-          />
-          <PlanetOutline
-            style={{ width: '500px', height: '500px', zIndex: '10' }}
-            onMouseEnter={() => setVisibility5(true)}
-            onMouseLeave={() => setVisibility5(false)}
-          />
-          <SmallPlanets2
+        <Planeterium id="products">
+          <Link href="/products/sun">
+            <Sun
+              style={{ zIndex: 15 }}
+              onMouseEnter={() => setVisibility1(true)}
+              onMouseLeave={() => setVisibility1(false)}
+            />
+          </Link>
+          <Link href="/products/sun">
+            <PlanetOutline
+              style={{
+                width: '100px',
+                height: '100px',
+                zIndex: '14',
+                border: visibility1 ? '0px black solid' : '0px grey solid',
+                backgroundColor: 'grey',
+              }}
+              onMouseEnter={() => setVisibility1(true)}
+              onMouseLeave={() => setVisibility1(false)}
+            />
+          </Link>
+          <Link href="/products/earth">
+            <PlanetOutline
+              style={{
+                width: '200px',
+                height: '200px',
+                zIndex: '13',
+                border: visibility2 ? '3px black solid' : '3px grey solid',
+              }}
+              onMouseEnter={() => setVisibility2(true)}
+              onMouseLeave={() => setVisibility2(false)}
+            />
+          </Link>
+          <Link href="/products/mars">
+            <PlanetOutline
+              style={{
+                width: '300px',
+                height: '300px',
+                zIndex: '12',
+                border: visibility3 ? '3px black solid' : '3px grey solid',
+              }}
+              onMouseEnter={() => setVisibility3(true)}
+              onMouseLeave={() => setVisibility3(false)}
+            />
+          </Link>
+
+          <Link href="/products/jupiter">
+            <PlanetOutline
+              style={{
+                width: '400px',
+                height: '400px',
+                zIndex: '11',
+                border: visibility4 ? '3px black solid' : '3px grey solid',
+              }}
+              onMouseEnter={() => setVisibility4(true)}
+              onMouseLeave={() => setVisibility4(false)}
+            />
+          </Link>
+          <Link href="/products/saturn">
+            <PlanetOutline
+              style={{
+                width: '500px',
+                height: '500px',
+                zIndex: '10',
+                border: visibility5 ? '3px black solid' : '3px grey solid',
+              }}
+              onMouseEnter={() => setVisibility5(true)}
+              onMouseLeave={() => setVisibility5(false)}
+            />
+          </Link>
+
+          <SmallPlanets1
             rotates="50px"
-            time="60s"
+            time="4s"
             start="0"
             plus="360"
-            // state={visibility}
-            onMouseEnter={() => setVisibility1(true)}
-            onMouseLeave={() => setVisibility1(false)}
+            state={visibility5}
+            visibility={visibility5}
+            style={{ opacity: 0 }}
           />
-          <SmallPlanets2
+          <PlanetName
+            style={{
+              opacity: visibility1 ? '1' : '0',
+              transition: 'opacity 1s ease-in;',
+            }}
+          >
+            sun
+          </PlanetName>
+          <SmallPlanets1
             rotates="100px"
-            time="40s"
-            start="160"
-            plus="520"
-            onMouseEnter={() => setVisibility2(true)}
-            onMouseLeave={() => setVisibility2(false)}
+            time="4s"
+            start="0"
+            plus="360"
+            style={{ opacity: visibility2 ? '1' : '0' }}
           />
-          <SmallPlanets2
+          <PlanetName
+            rotates="155px"
+            time="4s"
+            start="10"
+            plus="370"
+            style={{
+              opacity: visibility2 ? '1' : '0',
+              transition: 'opacity 1s ease-in;',
+            }}
+          >
+            earth
+          </PlanetName>
+          <SmallPlanets1
             rotates="150px"
-            time="30s"
+            time="7s"
             start="230"
             plus="590"
             // state={visibility}
-            onMouseEnter={() => setVisibility3(true)}
-            onMouseLeave={() => setVisibility3(false)}
+            style={{ opacity: visibility3 ? '1' : '0' }}
           />
-          <SmallPlanets2
+          <PlanetName
+            rotates="205px"
+            time="7s"
+            start="240"
+            plus="600"
+            style={{
+              opacity: visibility3 ? '1' : '0',
+              transition: 'opacity 1s ease-in;',
+            }}
+          >
+            mars
+          </PlanetName>
+          <SmallPlanets1
             rotates="200px"
-            time="70s"
+            time="9s"
             start="80"
             plus="440"
-            // state={visibility}
-            onMouseEnter={() => setVisibility4(true)}
-            onMouseLeave={() => setVisibility4(false)}
+            state={visibility4}
+            style={{ opacity: visibility4 ? '1' : '0' }}
           />
-          <SmallPlanets2
+          <PlanetName
             rotates="250px"
-            time="100s"
+            time="9s"
+            start="90"
+            plus="450"
+            style={{
+              opacity: visibility4 ? '1' : '0',
+              transition: 'opacity 1s ease-in;',
+            }}
+          >
+            jupiter
+          </PlanetName>
+          <SmallPlanets1
+            rotates="250px"
+            time="12s"
             start="75"
             plus="435"
-            // state={visibility}
-            onMouseEnter={() => setVisibility5(true)}
-            onMouseLeave={() => setVisibility5(false)}
+            state={visibility5}
+            style={{
+              opacity: visibility5 ? '1' : '0',
+            }}
           />
+          <PlanetName
+            rotates="305px"
+            time="12s"
+            start="80"
+            plus="440"
+            style={{
+              opacity: visibility5 ? '1' : '0',
+              transition: 'opacity 1s ease-in;',
+            }}
+          >
+            saturn
+          </PlanetName>
         </Planeterium>
         {/* <h1>{visibility[0] ? 'yoo' : 'nooo'}</h1> */}
       </CircleInfo>
     </div>
   );
 }
-export function getServerSideProps() {
+export async function getServerSideProps() {
+  const products = await data1();
+  // console.log(users);
   return {
     props: {
-      products: productDatabase,
+      products: products,
     },
   };
 }

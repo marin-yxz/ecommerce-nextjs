@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { productDatabase } from '../util/productsDatabase';
+import { data1 } from '../util/productsDatabase';
 
 const MainContainer = styled.div`
   display: flex;
@@ -130,23 +130,6 @@ const Button = styled.a`
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.8);
   }
 `;
-export function data() {
-  const arrayOfProducts = [];
-  const currentCookie = Cookies.get('products')
-    ? JSON.parse(Cookies.get('products'))
-    : [];
-
-  let price = 0;
-  for (let i = 0; i < currentCookie.length; i++) {
-    const array = productDatabase.find(function (match) {
-      return match.id === currentCookie[i].id ? true : false;
-    });
-    arrayOfProducts.push(array);
-    arrayOfProducts[i].quantity = currentCookie[i].quantity;
-    price = price + currentCookie[i].quantity * array.price;
-  }
-  return [price, arrayOfProducts];
-}
 
 export default function Basket(props) {
   const [database, setDatabase] = useState(props.database);
@@ -167,6 +150,9 @@ export default function Basket(props) {
                     bottom: '3px',
                     right: '3px',
                     zIndex: '10',
+                    backgroundColor: 'white',
+                    borderRadius: '3px',
+                    cursor: 'pointer  ',
                   }}
                   onClick={() => {
                     const currentCookie = Cookies.get('products')
@@ -181,7 +167,9 @@ export default function Basket(props) {
                       const arrayOfProducts = [];
                       let price1 = 0;
                       for (let i = 0; i < newCookie.length; i++) {
-                        const array = productDatabase.find(function (match) {
+                        const array = props.productDatabase.find(function (
+                          match,
+                        ) {
                           return match.id === newCookie[i].id ? true : false;
                         });
                         arrayOfProducts.push(array);
@@ -197,17 +185,22 @@ export default function Basket(props) {
                 >
                   Remove Item
                 </button>
-                <div
-                  style={{
-                    position: 'absolute',
-                    bottom: '3px',
-                    right: '120px',
-                    zIndex: '10',
-                  }}
-                >
-                  change quantity
-                </div>
-
+                <Link href={`/products/${name}`}>
+                  <div
+                    style={{
+                      position: 'absolute',
+                      bottom: '3px',
+                      right: '120px',
+                      zIndex: '10',
+                      padding: '3px',
+                      cursor: 'pointer',
+                      border: '1px solid black',
+                      borderRadius: '5px',
+                    }}
+                  >
+                    change quantity
+                  </div>
+                </Link>
                 <HR3
                   style={{
                     marginLeft: '6px',
@@ -266,7 +259,7 @@ export async function getServerSideProps(context) {
     : 0;
   currentCookie = JSON.parse(currentCookie);
   const arrayOfProducts = [];
-
+  const productDatabase = await data1();
   let price = 0;
   for (let i = 0; i < currentCookie.length; i++) {
     const array = productDatabase.find(function (match) {
@@ -282,6 +275,7 @@ export async function getServerSideProps(context) {
       database: arrayOfProducts,
       price: price,
       quantityCookie: currentCookie,
+      productDatabase: productDatabase,
     },
   };
 }

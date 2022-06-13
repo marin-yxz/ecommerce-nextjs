@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import Select from 'react-select';
 import styled, { keyframes } from 'styled-components';
-import { productDatabase } from '../../util/productsDatabase';
+import { data1 } from '../../util/productsDatabase';
 
 const expand = keyframes`
 from{
@@ -240,7 +240,8 @@ export async function getServerSideProps(context) {
   let currentCookie = (await context.req.cookies.products)
     ? context.req.cookies.products
     : 0;
-
+  const productDatabase = await data1();
+  console.log(productDatabase);
   const cookie = JSON.parse(currentCookie);
   const obj = productDatabase.find((o) => o.name === url);
   let obj1 = 1;
@@ -263,6 +264,8 @@ export async function getServerSideProps(context) {
   console.log(quan);
   const objectQuantity = [];
   currentCookie = JSON.parse(currentCookie).length;
+
+  // console.log(users);
 
   const found = productDatabase.find((array) => array.name === url);
   const arr = Object.keys(found).map((k) => found[k]);

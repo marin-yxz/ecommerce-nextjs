@@ -48,16 +48,18 @@ export function Header(props) {
             <StyledLink>home</StyledLink>
           </Link>
           <ScrollReact
-            to="products"
+            to="products1"
             smooth={true}
             duration={500}
             isDynamic={true}
+            tabIndex="0"
           >
-            {' '}
             planets
           </ScrollReact>
 
-          <Link href="/basket"> basket</Link>
+          <Link href="/basket">
+            <a>basket</a>
+          </Link>
           {/* suppressHydrationWarning */}
           <a> {props.clickAmount}</a>
         </MenuContainer>

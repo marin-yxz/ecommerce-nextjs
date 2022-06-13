@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import * as Scroll from 'react-scroll';
 import styled from 'styled-components';
@@ -7,17 +6,16 @@ const scrollReact = Scroll.Link;
 const ScrollReact = styled(scrollReact)`
   cursor: pointer;
 `;
-const MainDiv = styled.header`
+const MainDiv = styled.footer`
   width: 100%;
   padding: 20px 5% 0 5%;
-  background-color: transparent;
-  color: black;
+  margin-top: 200px;
+  height: 20vh;
+  color: white;
+  border-radius: 7% 70% 10% 10% / 52% 37% 10% 10%;
+  background-color: #212529;
 `;
-const StyledLink = styled.a`
-  color: red;
 
-  padding-bottom: 10px;
-`;
 const ContainingHeader = styled.div`
   display: flex;
   justify-content: center;
@@ -25,6 +23,8 @@ const ContainingHeader = styled.div`
   justify-content: space-between;
   border-bottom: solid white 1px;
   z-index: 11;
+  padding: 20px;
+  background-color: transparent;
 `;
 
 const MenuContainer = styled.div`
@@ -38,7 +38,7 @@ const GalaxyContainer = styled.div`
   font-size: 70px;
   font-weight: 700;
 `;
-export function Footer(props) {
+export function Footer() {
   return (
     <MainDiv>
       <ContainingHeader>
@@ -48,10 +48,14 @@ export function Footer(props) {
           </Link>
         </GalaxyContainer>
         <MenuContainer>
-          <StyledLink href="/">home</StyledLink>
+          <ScrollReact to="home" smooth={true} duration={500} isDynamic={true}>
+            {' '}
+            home
+          </ScrollReact>
+          {/* <StyledLink href="/">home</StyledLink> */}
 
           <ScrollReact
-            to="products"
+            to="products1"
             smooth={true}
             duration={500}
             isDynamic={true}
@@ -59,22 +63,12 @@ export function Footer(props) {
             {' '}
             planets
           </ScrollReact>
-          <ScrollReact
-            to="products"
-            smooth={true}
-            duration={500}
-            isDynamic={true}
-          >
-            {' '}
-            <Image src="/arrowUp.svg" alt="arrow" height="40px" width="50px" />
-          </ScrollReact>
         </MenuContainer>
       </ContainingHeader>
     </MainDiv>
   );
 }
 export function getServerSideProps({ query }) {
-
   const category = query.category;
   return category;
 }
